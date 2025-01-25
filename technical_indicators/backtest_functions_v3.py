@@ -42,10 +42,11 @@ def run_backtest(df, freq='daily'):
 
   # Overall Geometric Annual Return and Sharpe Ratio
   num_periods = len(df)
-  annual_return = (1 + df['strategy_return']).prod()**(period_in_a_year/num_periods) - 1
+  # annual_return = (1 + df['strategy_return']).prod()**(period_in_a_year/num_periods) - 1
+  annual_return = df['strategy_return'].mean() * period_in_a_year
 
-  daily_std = df['strategy_return'].std()
-  annual_std = daily_std * np.sqrt(period_in_a_year)
+  period_std = df['strategy_return'].std()
+  annual_std = period_std * np.sqrt(period_in_a_year)
   overall_sharpe = annual_return / annual_std
 
   print(f"Overall Annual Return: {round(annual_return*100, 2)}%")
@@ -85,7 +86,8 @@ def run_backtest(df, freq='daily'):
   df['year'] = df.index.year
 
   yearly_data = df.groupby('year').apply(lambda subdf: pd.Series({
-    'yearly_return': (1 + subdf['strategy_return']).prod()**(period_in_a_year/len(subdf)) - 1,
+    # 'yearly_return': (1 + subdf['strategy_return']).prod()**(period_in_a_year/len(subdf)) - 1,
+    'yearly_return': subdf['strategy_return'].mean() * period_in_a_year,
     'yearly_std': subdf['strategy_return'].std() * np.sqrt(period_in_a_year),
     'yearly_beta': np.cov(subdf['strategy_return'], subdf['return_forward'])[0,1] /
                     np.cov(subdf['strategy_return'], subdf['return_forward'])[1,1],
@@ -129,11 +131,11 @@ def run_backtest(df, freq='daily'):
 
 def concat_return(df, freq='daily'):
   if freq == 'daily':
-    file_path = "../bitcoin_historical_price/btcusd_daily_price.parquet"
+    file_path = "../../bitcoin_historical_price/btcusd_daily_price.parquet"
   elif freq == 'hourly':
-    file_path = "../bitcoin_historical_price/btcusd_hourly_price.parquet"
+    file_path = "../../bitcoin_historical_price/btcusd_hourly_price.parquet"
   elif freq == 'minute':
-    file_path = "../bitcoin_historical_price/btcusd_minute_price.parquet"
+    file_path = "../../bitcoin_historical_price/btcusd_minute_price.parquet"
   else:
     raise ValueError("Invalid freq argument. Must be 'daily', 'hourly', or 'minute'")
 
