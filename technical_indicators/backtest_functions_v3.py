@@ -131,11 +131,11 @@ def run_backtest(df, freq='daily'):
 
 def concat_return(df, freq='daily'):
   if freq == 'daily':
-    file_path = "../../bitcoin_historical_price/btcusd_daily_price.parquet"
+    file_path = "../bitcoin_historical_price/btcusd_daily_price.parquet"
   elif freq == 'hourly':
-    file_path = "../../bitcoin_historical_price/btcusd_hourly_price.parquet"
+    file_path = "../bitcoin_historical_price/btcusd_hourly_price.parquet"
   elif freq == 'minute':
-    file_path = "../../bitcoin_historical_price/btcusd_minute_price.parquet"
+    file_path = "../bitcoin_historical_price/btcusd_minute_price.parquet"
   else:
     raise ValueError("Invalid freq argument. Must be 'daily', 'hourly', or 'minute'")
 
