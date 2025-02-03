@@ -1,2 +1,0 @@
-bitcoin_historical_price/btcusd_1-min_data.csv filter=lfs diff=lfs merge=lfs -text
-bitcoin_historical_price/btcusd_minute_price.parquet filter=lfs diff=lfs merge=lfs -text
