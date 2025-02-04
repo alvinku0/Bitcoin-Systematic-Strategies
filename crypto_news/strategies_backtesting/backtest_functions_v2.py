@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import os
 import warnings
 import yfinance as yf
+from decimal import Decimal
 warnings.filterwarnings("ignore")
 
 # df must have index as datetime64[ns], and 'signal' column
@@ -36,19 +37,23 @@ def run_backtest(df, freq='daily'):
   if 'signal' not in df.columns:
     raise ValueError("DataFrame is missing required column: 'signal'")
 
-  # ------------------ Average Return & Sharpe ------------------
-  # Calculate daily returns
+  # ------------------ Return & Sharpe ------------------
+  # Daily returns
   df['strategy_return'] = df['signal'] * df['return_forward']
 
-  # Overall Geometric Annual Return and Sharpe Ratio
+  # Geometric Annual Return
   num_periods = len(df)
-  annual_return = (1 + df['strategy_return']).prod()**(period_in_a_year/num_periods) - 1
+  annual_return_geometric = (1 + df['strategy_return']).prod()**(period_in_a_year/num_periods) - 1
+  
+  # Arithmetic Annual Return for sharpe ratio calculation
+  annual_return_arithmetic = df['strategy_return'].mean() * period_in_a_year
 
+  # Sharpe Ratio
   daily_std = df['strategy_return'].std()
   annual_std = daily_std * np.sqrt(period_in_a_year)
-  overall_sharpe = annual_return / annual_std
+  overall_sharpe = annual_return_arithmetic / annual_std
 
-  print(f"Overall Annual Return: {round(annual_return*100, 2)}%")
+  print(f"Overall Annual Return: {round(annual_return_geometric*100, 2)}%")
   print("Overall Annual Sharpe Ratio:", round(overall_sharpe, 4))
 
   # ------------------ Maximum Drawdown ------------------
@@ -59,13 +64,13 @@ def run_backtest(df, freq='daily'):
   print("Maximum Drawdown:", round(max_drawdown * 100, 2), "%")
 
   # ------------------ Win/Loss Ratio ------------------
-  winning_trades = (df['strategy_return'] > 0).sum()
-  losing_trades = (df['strategy_return'] < 0).sum()
-  if losing_trades > 0:
-    win_loss_ratio = winning_trades / losing_trades
-  else:
-    win_loss_ratio = np.nan # no losing trades (advoid division by zero)
-  print("Win/Loss Ratio:", round(win_loss_ratio, 4))
+  # winning_trades = (df['strategy_return'] > 0).sum()
+  # losing_trades = (df['strategy_return'] < 0).sum()
+  # if losing_trades > 0:
+  #   win_loss_ratio = winning_trades / losing_trades
+  # else:
+  #   win_loss_ratio = np.nan # no losing trades (advoid division by zero)
+  # print("Win/Loss Ratio:", round(win_loss_ratio, 4))
 
   # ------------------ Alpha and Beta ------------------
   # Beta = Cov(strategy_return, acutal_return) / Var(actual_return)
@@ -86,6 +91,7 @@ def run_backtest(df, freq='daily'):
 
   yearly_data = df.groupby('year').apply(lambda subdf: pd.Series({
     'yearly_return': (1 + subdf['strategy_return']).prod()**(period_in_a_year/len(subdf)) - 1,
+    'yearly_return_arithmetic': subdf['strategy_return'].mean() * period_in_a_year,
     'yearly_std': subdf['strategy_return'].std() * np.sqrt(period_in_a_year),
     'yearly_beta': np.cov(subdf['strategy_return'], subdf['return_forward'])[0,1] /
                     np.cov(subdf['strategy_return'], subdf['return_forward'])[1,1],
@@ -99,7 +105,8 @@ def run_backtest(df, freq='daily'):
     ) * period_in_a_year
   })).reset_index()
 
-  yearly_data['yearly_sharpe'] = yearly_data['yearly_return'] / yearly_data['yearly_std']
+  yearly_data['yearly_sharpe'] = yearly_data['yearly_return_arithmetic'] / yearly_data['yearly_std']
+  yearly_data.drop(columns=['yearly_return_arithmetic'], inplace=True)
   print("\nYearly Metrics:")
   print(yearly_data)
 
@@ -129,11 +136,11 @@ def run_backtest(df, freq='daily'):
 
 def concat_return(df, freq='daily'):
   if freq == 'daily':
-    file_path = "../bitcoin_historical_price/btcusd_daily_price.parquet"
+    file_path = "../../bitcoin_historical_price/btcusd_daily_price.parquet"
   elif freq == 'hourly':
-    file_path = "../bitcoin_historical_price/btcusd_hourly_price.parquet"
+    file_path = "../../bitcoin_historical_price/btcusd_hourly_price.parquet"
   elif freq == 'minute':
-    file_path = "../bitcoin_historical_price/btcusd_minute_price.parquet"
+    file_path = "../../bitcoin_historical_price/btcusd_minute_price.parquet"
   else:
     raise ValueError("Invalid freq argument. Must be 'daily', 'hourly', or 'minute'")
 
@@ -142,5 +149,9 @@ def concat_return(df, freq='daily'):
   else:
     raise FileNotFoundError("Check file path: return data not found.")
 
+  # merge return_forward to df
   merged_df = pd.merge(df, df_btc_return[['return_forward']], left_index=True, right_index=True, how='inner')
+
+  # turn return_forward from decimal to float
+  merged_df['return_forward'] = merged_df['return_forward'].apply(lambda x: float(x))
   return merged_df
