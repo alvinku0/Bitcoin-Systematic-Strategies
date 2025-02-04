@@ -9,6 +9,7 @@ bertopic
 spacy
 nltk
 scikit-learn
+xgboost
 matplotlib
 seaborn
 plotly
@@ -16,3 +17,4 @@ requests
 tqdm
 yfinance
 wordcloud
+openai
