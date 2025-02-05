@@ -8,8 +8,8 @@ from decimal import Decimal
 warnings.filterwarnings("ignore")
 
 # df must have index as datetime64[ns], and 'signal' column
-# freq can be 'daily', 'hourly', or 'minute'
-def run_backtest(df, freq='daily'):
+# freq can be 'd', 'h', '5min', or '15min'
+def run_backtest(df, freq='d'):
 
   # check if df.index is datetime64[ns]
   if df.index.dtype != 'datetime64[ns]':
@@ -19,17 +19,20 @@ def run_backtest(df, freq='daily'):
   if 'return_forward' in df.columns:
     df = df.drop(columns=['return_forward'])
 
-  if freq == 'daily':
-    df = concat_return(df, freq='daily')
+  if freq == 'd':
+    df = concat_return(df, freq)
     period_in_a_year = 365
-  elif freq == 'hourly':
-    df = concat_return(df, freq='hourly')
+  elif freq == 'h':
+    df = concat_return(df, freq)
     period_in_a_year = 365 * 24
-  elif freq == 'minute':
-    df = concat_return(df, freq='minute')
-    period_in_a_year = 365 * 24 * 60
+  elif freq == '5min':
+    df = concat_return(df, freq)
+    period_in_a_year = 365 * 24 * 12
+  elif freq == '15min':
+    df = concat_return(df, freq)
+    period_in_a_year = 365 * 24 * 4
   else:
-    raise ValueError("Invalid freq argument. Must be 'daily', 'hourly', or 'minute'")
+    raise ValueError("Invalid freq argument. Must be 'd', 'h', '5min', or '15min'")
 
   # ------------------ Data check ------------------
   if df['signal'].isnull().values.any():
@@ -134,15 +137,17 @@ def run_backtest(df, freq='daily'):
   plt.show()
 
 
-def concat_return(df, freq='daily'):
-  if freq == 'daily':
+def concat_return(df, freq='d'):
+  if freq == 'd':
     file_path = "../../bitcoin_historical_price/btcusd_daily_price.parquet"
-  elif freq == 'hourly':
+  elif freq == 'h':
     file_path = "../../bitcoin_historical_price/btcusd_hourly_price.parquet"
-  elif freq == 'minute':
-    file_path = "../../bitcoin_historical_price/btcusd_minute_price.parquet"
+  elif freq == '5min':
+    file_path = "../../bitcoin_historical_price/btcusd_5min_price.parquet"
+  elif freq == '15min':
+    file_path = "../../bitcoin_historical_price/btcusd_15min_price.parquet"
   else:
-    raise ValueError("Invalid freq argument. Must be 'daily', 'hourly', or 'minute'")
+    raise ValueError("Invalid freq argument. Must be 'd', 'h', '5min', or '15min'")
 
   if os.path.exists(file_path):
     df_btc_return = pd.read_parquet(file_path)
