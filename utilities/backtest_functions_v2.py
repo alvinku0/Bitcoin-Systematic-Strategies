@@ -3,7 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import warnings
-import yfinance as yf
 from decimal import Decimal
 warnings.filterwarnings("ignore")
 
