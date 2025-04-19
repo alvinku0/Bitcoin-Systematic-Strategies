@@ -17,7 +17,7 @@ import logging.handlers
 
 
 # put the path to the input file
-input_file_path = "./Bitcoin_submission.zst"
+input_file_path = "./Bitcoin_submissions.zst"
 # put the path to the output file, with the csv extension
 output_file_path = "./to_csv_output.csv"
 # if you want a custom set of fields, put them in the following list. If you leave it empty the script will use a default set of fields

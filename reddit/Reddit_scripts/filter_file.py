@@ -29,7 +29,7 @@ write_bad_lines = True
 
 # only output items between these two dates
 from_date = datetime.strptime("2021-01-01", "%Y-%m-%d")
-to_date = datetime.strptime("2023-12-31", "%Y-%m-%d")
+to_date = datetime.strptime("2025-01-01", "%Y-%m-%d")
 
 # the field to filter on, the values to filter with and whether it should be an exact match
 # some examples:
@@ -119,7 +119,7 @@ def write_line_single(handle, obj, field):
 def write_line_csv(writer, obj, is_submission):
 	output_list = []
 	output_list.append(str(obj['score']))
-	output_list.append(datetime.fromtimestamp(int(obj['created_utc'])).strftime("%Y-%m-%d"))
+	output_list.append(datetime.fromtimestamp(int(obj['created_utc'])).strftime("%Y-%m-%d %H:%M:%S"))
 	if is_submission:
 		output_list.append(obj['title'])
 	output_list.append(f"u/{obj['author']}")
@@ -197,6 +197,9 @@ def process_file(input_file, output_file, output_format, field, values, from_dat
 	matched_lines = 0
 	bad_lines = 0
 	total_lines = 0
+	header = ["score", "time","title", "author","url", "body","upvote", "num_comments"]
+	writer.writerow(header)
+
 	for line, file_bytes_processed in read_lines_zst(input_file):
 		total_lines += 1
 		if total_lines % 100000 == 0:
@@ -251,7 +254,7 @@ def process_file(input_file, output_file, output_format, field, values, from_dat
 	log.info(f"Complete : {total_lines:,} : {matched_lines:,} : {bad_lines:,}")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
 	if single_field is not None:
 		log.info("Single field output mode, changing output file format to txt")
 		output_format = "txt"
