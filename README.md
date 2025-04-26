@@ -72,7 +72,7 @@ The Random Forest Classifier applied to alternative datasets (news and social me
 
 * Alternative datasets (news and social media) demonstrated significant market predictive ability, delivering superior risk-adjusted returns.
 * LLM-based approaches, specifically aspect-based sentiment analysis, performed exceptionally well in extracting nuanced features from textual data.
-* Machine learning captured patterns more effectively than statistical approaches. In this project, the Random Forest Classifier yielded the best performance.
+* Machine learning captured patterns more effectively than statistical approaches. In this project, the Random Forest Classifier yielded the best performance (`modeling_backtesting/RandomForestClassifier`). 
 * Subsequent phase of this research should focus on enhancing model performance by exploring additional deep learning methodologies tailored to limited data volumes.
 
 ## Limitation
