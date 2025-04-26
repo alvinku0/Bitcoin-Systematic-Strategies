@@ -54,7 +54,7 @@ Various models are developed to generate trading signals (-1: Sell, 0: Hold, 1: 
 
   2.Classifier
 
-* **Deep Learning Model strategies:** Initiation of trading using technical indicators in daily frequency (See `modeling_backtesting/Deep Learning`)
+* **Deep Learning Model strategies:** Deep learning based strategies for hourly frequency trading (See `modeling_backtesting/Deep Learning`)
 
 
 ## Backtesting
