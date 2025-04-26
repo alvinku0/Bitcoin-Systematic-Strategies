@@ -47,7 +47,8 @@ Bitcoin price data from Kaggle (OHLC) in `bitcoin_historical_price`
 Various models are developed to generate trading signals (-1: Sell, 0: Hold, 1: Buy):
 
 * **Statistical Models:** EWM-based strategies. (See `modeling_backtesting/statistical/`)
-* **xxxxxxxxxxxxxxxx** xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+* **Rule-based strategies:** Initiation of trading using technical indicators in daily frequency (See `technical_indicators/rule-based_strategies.ipynb`)
+
 
 ## Backtesting
 
