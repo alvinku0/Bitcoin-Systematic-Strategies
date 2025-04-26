@@ -39,8 +39,8 @@ Text data from news and Reddit is processed to extract valuable features:
 Bitcoin price data from Kaggle (OHLC) in `bitcoin_historical_price`
 
 * **Indicators:** Calculation done in `technical_indicators/ta_lib.ipynb` using daily and hourly data from `bitcoin_historical_price`.
-  Export file to `technical_indicators/btcusd_daily_price_indicators.parquet` (daily) and `technical_indicators/btcusd_hourly_price_indicators.parquet` (hourly)
-* **Feature Engineering:**
+  (Export file to `technical_indicators/btcusd_daily_price_indicators.parquet` (daily) and `technical_indicators/btcusd_hourly_price_indicators.parquet` (hourly))
+* **Feature Engineering:** 
   
 ## Modelling
 
