@@ -31,12 +31,12 @@ Text data from news and Reddit is processed to extract valuable features:
 
 * **Aspect-Based Sentiment Analysis (ABSA):** Analyzes sentiment towards specific aspects like 'economy', 'regulation', 'technology'. (See `crypto_news/data_processing/3.absa.ipynb`)
 * **Named Entity Recognition (NER):** Identifies key entities like people, organizations, cryptocurrencies, and events. (See `crypto_news/data_processing/4b.ner.ipynb`)
-* **Sentiment Analysis:** General sentiment scoring using models like VADER, FinBERT, or CryptoBERT. (See `crypto_news/data_processing/5.sentiment.ipynb`)
+* **Sentiment Analysis:** Analyse sentiment scoring using VADER, FinBERT, CryptoBERT. (See `reddit/reddit_sentiment.ipynb` and `crypto_news/data_processing/5.sentiment.ipynb`)
 * **Topic:** Identifies prevalent topics discussed in the news articles. (See `crypto_news/data_processing/6.topic.ipynb`)
 
 ## Technical Analysis
 
-Bitcoin price data from Kaggle (OHLC) in `bitcoin_historical_price`
+Derive technical indicators from Bitcoin market data (OHLC) from Kaggle.
 
 * **Indicators:** Calculation done in `technical_indicators/ta_lib.ipynb` using daily and hourly data from `bitcoin_historical_price`.
   (Export file to `technical_indicators/btcusd_daily_price_indicators.parquet` for daily and `technical_indicators/btcusd_hourly_price_indicators.parquet` for hourly)
@@ -48,12 +48,12 @@ Various models are developed to generate trading signals (-1: Sell, 0: Hold, 1: 
 
 * **Statistical Models:** EWM-based strategies. (See `modeling_backtesting/statistical/`)
 * **Rule-based strategies:** Initiation of trading using technical indicators (See `technical_indicators/rule-based_strategies.ipynb`)
-* **XGBoost:** 
+* **XGBoost:**
 
-  1.Regressor (See `modeling_backtesting/XGBoost/xgboost_regressor_v1.ipynb` and `modeling_backtesting/XGBoost/xgboost_regressor_v2.ipynb`)
+  1. Regressor (See `modeling_backtesting/XGBoost/xgboost_regressor_v1.ipynb` and `modeling_backtesting/XGBoost/xgboost_regressor_v2.ipynb`)
 
-  2.Classifier
-
+  2. Classifier
+  
 * **Deep Learning Model strategies:** Deep learning based strategies for hourly frequency trading (See `modeling_backtesting/Deep Learning`)
 
 
