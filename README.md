@@ -19,7 +19,7 @@ This section covers the acquisition of various data sources used for analysis an
 
 * **Bitcoin Market Data:**
   * Historical market data (Open, High, Low, Close, Volume) for Bitcoin (BTC-USD) were downloaded from [Kaggle Bitcoin Historical Data](https://www.kaggle.com/datasets/mczielinski/bitcoin-historical-data).
-  * The market data was processed in various data frequencies using the file `bitcoin_historical_price/process_1min_price_kaggle.ipynb` and saved in the folder `bitcoin_historical_price/`.
+  * The market data was processed in various data frequencies using the file `bitcoin_historical_price/process_bitcoin_market_data.ipynb` and saved in the folder `bitcoin_historical_price/`.
 * **News Articles:**
   * Historical news articles were gathered from [Crypto News API](https://cryptonews-api.com/) using the file `crypto_news/data_processing/1.get_cryptonews_api.py` and saved in the folder `crypto_news/data/1.cryptonews.parquet`.
 * **Reddit Posts:**
