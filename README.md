@@ -18,12 +18,13 @@ The project is organized into several key components:
 This section covers the acquisition of various data sources used for analysis and model building.
 
 * **Bitcoin Market Data:**
-  * Historical price data (Open, High, Low, Close, Volume) for Bitcoin (BTC-USD) downloaded from [Kaggle Bitcoin Historical Data](https://www.kaggle.com/datasets/mczielinski/bitcoin-historical-data).
-  * The market data was processed in varies data frequencies using the file `bitcoin_historical_price/process_1min_price_kaggle.ipynb`.
+  * Historical market data (Open, High, Low, Close, Volume) for Bitcoin (BTC-USD) were downloaded from [Kaggle Bitcoin Historical Data](https://www.kaggle.com/datasets/mczielinski/bitcoin-historical-data)
+  * The market data was processed in varies data frequencies using the file `bitcoin_historical_price/process_1min_price_kaggle.ipynb` and saved in the folder `bitcoin_historical_price/`.
 * **News Articles:**
-  * Historical news articles were gathered from [Crypto News API](https://cryptonews-api.com/) using the file `crypto_news/data_processing/1.get_cryptonews_api.py` and saved in the folder `crypto_news/data/`.
+  * Historical news articles were gathered from [Crypto News API](https://cryptonews-api.com/) using the file `crypto_news/data_processing/1.get_cryptonews_api.py` and saved in the folder `crypto_news/data/1.cryptonews.parquet`.
 * **Reddit Posts:**
-  * xxxxxxxxxxxxxxxxxxxxxxxxxx
+  * Reddit dataset were obtained from [Academic Torrents](https://academictorrents.com/details/1614740ac8c94505e4ecb9d88be8bed7b6afddd4) and saved in `reddit/Reddit_scripts/Bitcoin_submissions.zst`.
+  * `reddit/Reddit_scripts/filter_file.py` filtered out posts created between 2021/01/01-2024/12/31 and to `reddit/reddit_hour_raw.parquet.gzip`.
 
 ## Natural Language Processing (NLP)
 
@@ -36,28 +37,26 @@ Text data from news and Reddit is processed to extract valuable features:
 
 ## Technical Analysis
 
-Derive technical indicators from Bitcoin market data (OHLC) from Kaggle.
+Derive technical indicators from Bitcoin market data (OHLC).
 
-* **Indicators:** Calculation done in `technical_indicators/ta_lib.ipynb` using daily and hourly data from `bitcoin_historical_price`.
-  (Export file to `technical_indicators/btcusd_daily_price_indicators.parquet` for daily and `technical_indicators/btcusd_hourly_price_indicators.parquet` for hourly)
-* **Feature Engineering:** Manual feature engineering (See `technical_indicators/feature_hourly.ipynb`, export full price dataset to `technical_indicators/btcusd_hourly_features.parquet`)
+* **Indicators:** Calculate technical indicators such as moving averages, MACD, RSI, ADX, OBV, etc in both hourly and daily frequency. (See `technical_indicators/ta_lib.ipynb`)
+  * Exported file to `technical_indicators/btcusd_daily_price_indicators.parquet` and `technical_indicators/btcusd_hourly_price_indicators.parquet`.
+* **Feature Engineering:** Create additional features derived from technical indicators that capture trends, momentum, and volatility. (See `technical_indicators/feature_hourly.ipynb`, exported dataset to `technical_indicators/btcusd_hourly_features.parquet`)
   
 ## Modelling
 
-Various models are developed to generate trading signals (-1: Sell, 0: Hold, 1: Buy):
+Various models were developed to generate trading signals.  
+For models involved ML, they were all trained on 2021-2023 data and tested on 2024 data.
 
 * **Statistical Models:** EWM-based strategies. (See `modeling_backtesting/statistical/`)
-* **Rule-based strategies:** Initiation of trading using technical indicators (See `technical_indicators/rule-based_strategies.ipynb`)
-* **XGBoost:**
+* **Rule-based strategies:** Initiation of trading based on technical indicators rule-based signals. (See `technical_indicators/rule-based_strategies.ipynb`)
+* **Logistic Regression Model:** `modeling_backtesting/LogisticRegression`
+* **Random Forest Classifier:** `modeling_backtesting/RandomForestClassifier`
+* **XGBoost Regressor:** `modeling_backtesting/XGBoostRegressor`
+* **XGBoost Classifier:** `modeling_backtesting/XGBoostClassifier`
+* **Deep Learning strategies:** Deep learning models, including LSTM, NBEATS, transformer. (See `modeling_backtesting/Deep Learning`)
 
-  1. Regressor (See `modeling_backtesting/XGBoost/xgboost_regressor_v1.ipynb` and `modeling_backtesting/XGBoost/xgboost_regressor_v2.ipynb`)
-
-  2. Classifier
-  
-* **Deep Learning Model strategies:** Deep learning based strategies for hourly frequency trading (See `modeling_backtesting/Deep Learning`)
-
-
-## Backtesting
+## Backtesing
 
 Simulates and evaluates the performance of the trading strategies:
 
@@ -67,9 +66,4 @@ Simulates and evaluates the performance of the trading strategies:
 * **Plotting:** Simulate portfolio returns and plot the cumulative return graph.
 * **Functionality:** Handles different data frequencies and calculates returns based on signals and forward returns.
 
-## Key Findings
 
-* Alternative dataset (news and social media) demonstrated market predictive ability and delivered superior risk-adjusted returns (Sharpe>3.0)
-* LLM-based approaches, specifically aspect-based sentiment analysis, performed exceptionally well in extracting nuanced features from textual data.
-* Machine learning capture patterns more effectively than statistical approach. In the project, random forest classifier yieded the best perfomanace.
-* Subsequent phase of this research should focus on enhancing model performance by exploring deep learning methodologies tailored to limited data volume.
