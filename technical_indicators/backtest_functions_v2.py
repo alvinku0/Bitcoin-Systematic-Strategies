@@ -139,9 +139,9 @@ def run_backtest(df, freq='d'):
 
 def concat_return(df, freq='d'):
   if freq == 'd':
-    file_path = "../bitcoin_historical_price/btcusd_daily_price.parquet"
+    file_path = "/workspaces/Bitcoin-Systematic-Strategies/bitcoin_historical_price/btcusd_daily_price.parquet"
   elif freq == 'h':
-    file_path = "../bitcoin_historical_price/btcusd_hourly_price.parquet"
+    file_path = "/workspaces/Bitcoin-Systematic-Strategies/bitcoin_historical_price/btcusd_hourly_price.parquet"
   elif freq == '5min':
     file_path = "../bitcoin_historical_price/btcusd_5min_price.parquet"
   elif freq == '15min':
