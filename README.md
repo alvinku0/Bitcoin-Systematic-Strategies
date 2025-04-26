@@ -66,4 +66,9 @@ Simulates and evaluates the performance of the trading strategies:
 * **Plotting:** Simulate portfolio returns and plot the cumulative return graph.
 * **Functionality:** Handles different data frequencies and calculates returns based on signals and forward returns.
 
+## Key Findings
 
+* Alternative dataset (news and social media) demonstrated market predictive ability and delivered superior risk-adjusted returns (Sharpe>3.0)
+* LLM-based approaches, specifically aspect-based sentiment analysis, performed exceptionally well in extracting nuanced features from textual data.
+* Machine learning capture patterns more effectively than statistical approach. In the project, random forest classifier yieded the best perfomanace.
+* Subsequent phase of this research should focus on enhancing model performance by exploring deep learning methodologies tailored to limited data volume.
