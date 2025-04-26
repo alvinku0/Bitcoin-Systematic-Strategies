@@ -40,7 +40,7 @@ Bitcoin price data from Kaggle (OHLC) in `bitcoin_historical_price`
 
 * **Indicators:** Calculation done in `technical_indicators/ta_lib.ipynb` using daily and hourly data from `bitcoin_historical_price`.
   (Export file to `technical_indicators/btcusd_daily_price_indicators.parquet` (daily) and `technical_indicators/btcusd_hourly_price_indicators.parquet` (hourly))
-* **Feature Engineering:** 
+* **Feature Engineering:** Manual feature engineering (See `technical_indicators/feature_hourly.ipynb`, export full price dataset to `technical_indicators/btcusd_hourly_features.parquet`)
   
 ## Modelling
 
