@@ -48,6 +48,7 @@ Various models are developed to generate trading signals (-1: Sell, 0: Hold, 1: 
 
 * **Statistical Models:** EWM-based strategies. (See `modeling_backtesting/statistical/`)
 * **Rule-based strategies:** Initiation of trading using technical indicators in daily frequency (See `technical_indicators/rule-based_strategies.ipynb`)
+* **Deep Learning Model strategies:** Initiation of trading using technical indicators in daily frequency (See `modeling_backtesting/Deep Learning`)
 
 
 ## Backtesting
